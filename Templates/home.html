@@ -1,4 +1,133 @@
 {% extends 'base.html' %} {% block title %} Virtual Finance {% endblock %} {%
 block content %}
-<h2>Home Page</h2>
+<div class="container">
+  <div class="d-flex justify-content-start head-profile">
+    <img
+      src="static/images/profile_img.jpg"
+      class="rounded-circle profile_img"
+      alt="ProfileImage"
+    />
+    <h2 class="align-self-center profile-name">Username</h2>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card card-table">
+        <div class="card-body">
+          <h5 class="card-title">Bank</h5>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+              </tr>
+            </tbody>
+          </table>
+          <a href="#" class="btn btn-primary">Show</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card card-table">
+        <div class="card-body">
+          <h5 class="card-title">Stocks</h5>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+              </tr>
+            </tbody>
+          </table>
+          <a href="#" class="btn btn-primary">Show</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card card-table">
+        <div class="card-body">
+          <h5 class="card-title">Contacts</h5>
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Username</th>
+                  <th scope="col">Exchange</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Mark</td>
+                  <td>$250</td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Jacob</td>
+                  <td>$172</td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Harvey</td>
+                  <td>$55</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <a href="#" class="btn btn-primary">Show</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+<!-- Footer -->
+<footer class="page-footer font-small blue">
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2022 Copyright:
+    <a href="#"> VirtualFinance.com</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
 {% endblock %}
