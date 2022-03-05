@@ -65,11 +65,14 @@
             </a>
           </div>
         </div>
-        <!-- <div class="container-fluid justify-content-end"> -->
         <div class="btn-nav">
-          <button class="btn btn-outline-success me-2 navbar-btn" type="button">
+          <a
+            href="{{ url_for('index_page') }}"
+            class="btn btn-outline-danger me-2 navbar-btn"
+            type="button"
+          >
             Sign Out
-          </button>
+          </a>
         </div>
       </div>
     </nav>

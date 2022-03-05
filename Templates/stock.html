@@ -1,4 +1,123 @@
 {% extends 'base.html' %} {% block title %} Virtual Finance {% endblock %} {%
 block content %}
-<h2>Stock Page</h2>
-{% endblock %}
+<div class="container">
+  <div class="card card-table" style="width: 55rem;">
+    <div class="card-body">
+      <h5 class="card-title">Stocks Today</h5>
+      <h6 class="card-subtitle mb-2 text-muted">INR Prices</h6>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Market Cap</th>
+            <th scope="col">Volume</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for stock in stocks_today %}
+          <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{ stock.Name }}</td>
+            <td>
+              <i class="fa fa-inr" aria-hidden="true"></i>
+              {{ stock.inr }}
+            </td>
+            <td>
+              <i class="fa fa-inr" aria-hidden="true"></i>
+              {{ stock.inr_market_cap }}
+            </td>
+            <td>
+              <i class="fa fa-inr" aria-hidden="true"></i>
+              {{ stock.inr_24h_vol }}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="card card-table">
+        <div class="card-body">
+          <h5 class="card-title">My Stocks</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Bought</th>
+                <th scope="col">Current</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div
+      class="col-sm-4"
+      style="width: 19rem; margin-top: 1%; margin-bottom: 1.5%;"
+    >
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Trade</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Buy/Sell Stocks</h6>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Bought</th>
+                <th scope="col">Current</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    {% endblock %}
+  </div>
+</div>
