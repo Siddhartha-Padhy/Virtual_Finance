@@ -1,10 +1,15 @@
 from flask import Flask, render_template, redirect, url_for, request
 import requests
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods =["GET", "POST"])
 def index_page():
+    if request.method == "POST":
+       username = request.form.get("username")
+       password = request.form.get("password") 
+       return "Your name is "+username + password
     return render_template('index.html')
 
 @app.route('/home')

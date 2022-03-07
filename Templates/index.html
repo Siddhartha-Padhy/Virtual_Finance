@@ -53,18 +53,18 @@
         <div class="card signin-card" style="width: 18rem;">
           <div class="card-body">
             <h5 class="card-title">Sign-in / Sign-up</h5>
-            <form>
+            <form action="{{ url_for('index_page') }}" method="post">
               <div class="form-group">
-                <label for="emailAddress">
+                <label for="username">
                   <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                  Email address
+                  Username
                 </label>
                 <input
-                  type="email"
+                  type="text"
                   class="form-control"
-                  id="emailId"
-                  aria-describedby="emailHelp"
-                  placeholder="Email"
+                  id="username"
+                  name="username"
+                  placeholder="Username"
                 />
               </div>
               <div class="form-group">
@@ -76,18 +76,20 @@
                   type="password"
                   class="form-control"
                   id="accPwd"
+                  name="password"
                   placeholder="Password"
                 />
               </div>
+
+              <button type="submit" class="btn btn-primary">Sign-up</button>
+              <a
+                type="submit"
+                href="{{ url_for('home_page') }}"
+                class="btn btn-success"
+              >
+                Sign-in
+              </a>
             </form>
-            <button type="submit" class="btn btn-primary">Sign-up</button>
-            <a
-              type="submit"
-              href="{{ url_for('home_page') }}"
-              class="btn btn-success"
-            >
-              Sign-in
-            </a>
           </div>
         </div>
       </div>
