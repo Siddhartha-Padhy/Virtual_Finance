@@ -1,15 +1,36 @@
 from flask import Flask, render_template, redirect, url_for, request
 import requests
-from flask_sqlalchemy import SQLAlchemy
+import pyrebase
+import json
+
+def firebaseConfigRead():
+    with open("C:/Users/Dell/OneDrive/Desktop/Python/fireConfig.json", 'r') as f:
+        return json.load(f)
 
 app = Flask(__name__)
+
+firebaseConfig = firebaseConfigRead()
+firebase = pyrebase.initialize_app(firebaseConfig)
+db = firebase.database()
+auth = firebase.auth()
 
 @app.route('/', methods =["GET", "POST"])
 def index_page():
     if request.method == "POST":
-       username = request.form.get("username")
-       password = request.form.get("password") 
-       return "Your name is "+username + password
+        if request.form['sign'] == 'sign-in':
+            username = request.form.get("username")
+            password = request.form.get("password")
+            try:
+                auth.sign_in_with_email_and_password(username,password)
+                return render_template('home.html',username=username)
+            except:
+                print("Failed")
+        elif request.form['sign'] == 'sign-up':
+            username = request.form.get("username")
+            password = request.form.get("password")
+            auth.create_user_with_email_and_password(username,password)
+            return render_template('home.html',username=username)
+
     return render_template('index.html')
 
 @app.route('/home')

@@ -81,14 +81,22 @@
                 />
               </div>
 
-              <button type="submit" class="btn btn-primary">Sign-up</button>
-              <a
+              <button
                 type="submit"
-                href="{{ url_for('home_page') }}"
+                class="btn btn-primary"
+                name="sign"
+                value="sign-up"
+              >
+                Sign-up
+              </button>
+              <button
+                type="submit"
                 class="btn btn-success"
+                name="sign"
+                value="sign-in"
               >
                 Sign-in
-              </a>
+              </button>
             </form>
           </div>
         </div>

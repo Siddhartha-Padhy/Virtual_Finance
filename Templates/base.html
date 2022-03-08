@@ -65,15 +65,18 @@
             </a>
           </div>
         </div>
-        <div class="btn-nav">
-          <a
-            href="{{ url_for('index_page') }}"
-            class="btn btn-outline-danger me-2 navbar-btn"
-            type="button"
-          >
-            Sign Out
-          </a>
-        </div>
+        <form>
+          <div class="btn-nav">
+            <button
+              class="btn btn-outline-danger me-2 navbar-btn"
+              type="submit"
+              name="sign-out"
+              value="sign-out"
+            >
+              Sign Out
+            </button>
+          </div>
+        </form>
       </div>
     </nav>
 
