@@ -53,6 +53,12 @@
         <div class="card signin-card" style="width: 18rem;">
           <div class="card-body">
             <h5 class="card-title">Sign-in / Sign-up</h5>
+            {% if error %}
+            <p>
+              <strong>Error</strong>
+              : {{error}}
+            </p>
+            {% endif %}
             <form action="{{ url_for('index_page') }}" method="post">
               <div class="form-group">
                 <label for="username">

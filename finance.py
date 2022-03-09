@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, flash, render_template, redirect, url_for, request
 import requests
 import pyrebase
 import json
@@ -8,6 +8,7 @@ def firebaseConfigRead():
         return json.load(f)
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'something'
 
 firebaseConfig = firebaseConfigRead()
 firebase = pyrebase.initialize_app(firebaseConfig)
@@ -16,26 +17,30 @@ auth = firebase.auth()
 
 @app.route('/', methods =["GET", "POST"])
 def index_page():
+    error = None
     if request.method == "POST":
         if request.form['sign'] == 'sign-in':
-            username = request.form.get("username")
-            password = request.form.get("password")
+            username = str(request.form.get("username"))
+            password = str(request.form.get("password"))
             try:
                 auth.sign_in_with_email_and_password(username,password)
-                return render_template('home.html',username=username)
-            except:
-                print("Failed")
+                flash('Successfully Signed in')
+                return redirect(url_for('home_page',user=username))
+            except Exception as e:
+                print('Error: ',e)
+                error = 'Invalid Credentials'
+    
         elif request.form['sign'] == 'sign-up':
             username = request.form.get("username")
             password = request.form.get("password")
             auth.create_user_with_email_and_password(username,password)
-            return render_template('home.html',username=username)
+            return redirect(url_for('home_page'))
 
-    return render_template('index.html')
+    return render_template('index.html',error=error)
 
-@app.route('/home')
-def home_page():
-    return render_template('home.html')
+@app.route('/home/<user>')
+def home_page(user):
+    return render_template('home.html',username=user)
 
 @app.route('/bank')
 def bank_page():
