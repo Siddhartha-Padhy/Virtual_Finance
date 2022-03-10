@@ -1,4 +1,21 @@
 {% extends 'base.html' %} {% block title %} Virtual Finance {% endblock %} {%
-block content %}
+block nav_items %}
+<a class="nav-link" href="{{ url_for('home_page',user=username) }}">
+  Home
+</a>
+<a class="nav-link" href="{{ url_for('bank_page',user=username) }}">
+  Bank
+</a>
+<a class="nav-link" href="{{ url_for('stock_page',user=username) }}">
+  Stocks
+</a>
+<a
+  class="nav-link active"
+  aria-current="page"
+  href="{{ url_for('contacts_page',user=username) }}"
+>
+  Contacts
+</a>
+{% endblock %} {% block content %}
 <h2>Contacts Page</h2>
 {% endblock %}

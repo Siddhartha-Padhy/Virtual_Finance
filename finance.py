@@ -8,7 +8,7 @@ def firebaseConfigRead():
         return json.load(f)
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'something'
+app.config['SECRET_KEY'] = 'jhdjkco26cd61sdd5'
 
 firebaseConfig = firebaseConfigRead()
 firebase = pyrebase.initialize_app(firebaseConfig)
@@ -42,12 +42,12 @@ def index_page():
 def home_page(user):
     return render_template('home.html',username=user)
 
-@app.route('/bank')
-def bank_page():
-    return render_template('bank.html')
+@app.route('/bank/<user>')
+def bank_page(user):
+    return render_template('bank.html',username=user)
 
-@app.route('/stock')
-def stock_page():
+@app.route('/stock/<user>')
+def stock_page(user):
     stocks_list = ['bitcoin','ethereum','tether','tron','solana','cardano','dogecoin']
     stocks = "%2C".join(stocks_list)
 
@@ -63,11 +63,11 @@ def stock_page():
             ans[k_val] = result[key][k_val]
         stocks_today.append(ans)
 
-    return render_template('stock.html',stocks_today=stocks_today)
+    return render_template('stock.html',stocks_today=stocks_today,username=user)
 
-@app.route('/contacts')
-def contacts_page():
-    return render_template('contacts.html')
+@app.route('/contacts/<user>')
+def contacts_page(user):
+    return render_template('contacts.html',username=user)
 
 if __name__ == '__main__':
     app.run(debug=True)

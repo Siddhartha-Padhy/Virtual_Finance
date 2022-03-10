@@ -1,10 +1,28 @@
-{% extends 'base.html' %} {% block title %} Virtual Finance {% endblock %} {%
-block content %}
+{% extends 'base.html' %} {% block title %} Virtual Finance {% endblock %}
+{% block nav_items %}
+<a
+  class="nav-link active"
+  aria-current="page"
+  href="{{ url_for('home_page',user=username) }}"
+>
+  Home
+</a>
+<a class="nav-link" href="{{ url_for('bank_page',user=username) }}">
+  Bank
+</a>
+<a class="nav-link" href="{{ url_for('stock_page',user=username) }}">
+  Stocks
+</a>
+<a class="nav-link" href="{{ url_for('contacts_page',user=username) }}">
+  Contacts
+</a>
+{% endblock %}
+{% block content %}
 <div class="container">
   <div class="d-flex justify-content-start head-profile">
     <img
-      src="static/images/profile_img.jpg"
-      class="rounded-circle profile_img"
+      src="{{ url_for('static',filename='images/profile_img.jpg') }}"
+      class="rounded-circle"
       alt="ProfileImage"
     />
     <h2 class="align-self-center profile-name">{{ username }}</h2>

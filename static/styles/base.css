@@ -27,11 +27,6 @@ body {
   left: 35%;
 }
 
-.profile_img {
-  width: 30vh;
-  height: 30vh;
-}
-
 .logo img {
   width: 10vh;
   height: 10vh;
@@ -49,6 +44,11 @@ a {
 .head-profile {
   padding-top: 2%;
   padding-bottom: 2%;
+}
+
+.head-profile img {
+  width: 30vh;
+  height: 30vh;
 }
 
 .profile-name {
