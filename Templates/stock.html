@@ -30,6 +30,7 @@ block nav_items %}
             <th scope="col">Price</th>
             <th scope="col">Market Cap</th>
             <th scope="col">Volume</th>
+            <th scope="col">Bought</th>
           </tr>
         </thead>
         <tbody>
@@ -49,6 +50,9 @@ block nav_items %}
               <i class="fa fa-inr" aria-hidden="true"></i>
               {{ stock.inr_24h_vol }}
             </td>
+            <td>
+              55
+            </td>
           </tr>
           {% endfor %}
         </tbody>
@@ -59,36 +63,70 @@ block nav_items %}
     <div class="col-sm-8">
       <div class="card card-table">
         <div class="card-body">
-          <h5 class="card-title">My Stocks</h5>
+          <h5 class="card-title">Trade</h5>
           <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
           <table class="table table-striped">
             <thead>
               <tr>
-                <th scope="col">#</th>
                 <th scope="col">Name</th>
-                <th scope="col">Bought</th>
-                <th scope="col">Current</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Buy/Sell</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
+              <form
+                action="{{ url_for('stock_page',user=username) }}"
+                method="post"
+              >
+                {% for stock in stocks_today %}
+                <tr>
+                  <th scope="row" name="stockName{{loop.index}}">
+                    {{ stock.Name }}
+                  </th>
+                  <td name="stockPrice{{loop.index}}">{{ stock.inr }}</td>
+                  <td>
+                    <button
+                      class="btn btn-sm btn-primary"
+                      onclick="increment(document.getElementById('quantity{{loop.index}}'))"
+                    >
+                      <i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                    <input
+                      type="text"
+                      id="quantity{{loop.index}}"
+                      name="quantity{{loop.index}}"
+                      value="0"
+                      style="width: 15%;"
+                    />
+                    <button
+                      class="btn btn-sm btn-primary"
+                      onclick="decrement(document.getElementById('quantity{{loop.index}}'))"
+                    >
+                      <i class="fa fa-minus" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      class="btn btn-sm btn-success"
+                      type="submit"
+                      name="trade"
+                      value="buy{{loop.index}}"
+                    >
+                      Buy
+                    </button>
+                    <button
+                      class="btn btn-sm btn-danger"
+                      type="submit"
+                      name="trade"
+                      value="sell{{loop.index}}"
+                    >
+                      Sell
+                    </button>
+                  </td>
+                </tr>
+                {% endfor %}
+              </form>
             </tbody>
           </table>
         </div>
@@ -100,7 +138,7 @@ block nav_items %}
     >
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Trade</h5>
+          <h5 class="card-title">My Stocks</h5>
           <h6 class="card-subtitle mb-2 text-muted">Buy/Sell Stocks</h6>
           <table class="table table-striped">
             <thead>
