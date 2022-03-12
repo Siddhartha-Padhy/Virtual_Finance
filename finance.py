@@ -37,8 +37,13 @@ def stock_trade(user,index,price,quantity,buy):
 
     else:
         print(f'Sell: {index}  {quantity}')
-        data = {'Name':stocks_list[index],'Price':price,'Quantity':quantity,'Trade':'Sell','Owner':user}
-        db.child('Finance').child('Stocks').push(data)
+        # data = {'Name':stocks_list[index],'Price':price,'Quantity':quantity,'Trade':'Sell','Owner':user}
+        # db.child('Finance').child('Stocks').push(data)
+        avail_stocks = db.child('Finance').child('Stocks').order_by_child('Owner').equal_to(user).get()
+        for stock in avail_stocks.each():
+            if stock.val()['Name'] == name:
+                rem = int(db.child('Finance').child('Stocks').child(stock.key()).child('Quantity').get().val()) - quantity
+                db.child('Finance').child('Stocks').child(stock.key()).update({'Quantity':rem})
 
 def get_stocks_api():
     data=requests.get(URL)
@@ -57,7 +62,6 @@ def get_my_stocks(user):
     stocks = db.child('Finance').child('Stocks').order_by_child('Owner').equal_to(user).get()
     data = []
     for stock in stocks.each():
-        print(stock.val())
         data.append(stock.val())
     return data
 
@@ -94,7 +98,8 @@ def index_page():
 
 @app.route('/home/<user>')
 def home_page(user):
-    return render_template('home.html',username=user)
+    available_stocks = get_my_stocks(user)
+    return render_template('home.html',username=user,available_stocks=available_stocks)
 
 @app.route('/bank/<user>')
 def bank_page(user):
@@ -112,7 +117,7 @@ def stock_page(user):
                 price = stocks_today[index]['inr']
                 if item == 'trade' and val == f'buy{index+1}':
                     stock_trade(user,index,price,quantity,True)
-                elif item == 'trade' and val == f'sell{index}':
+                elif item == 'trade' and val == f'sell{index+1}':
                     stock_trade(user,index,price,quantity,False)
 
     available_stocks = get_my_stocks(user)

@@ -64,7 +64,7 @@ block nav_items %}
       <div class="card card-table">
         <div class="card-body">
           <h5 class="card-title">Trade</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+          <h6 class="card-subtitle mb-2 text-muted">Buy/Sell</h6>
           <table class="table table-striped">
             <thead>
               <tr>
@@ -88,6 +88,7 @@ block nav_items %}
                   <td>
                     <button
                       class="btn btn-sm btn-primary"
+                      type="button"
                       onclick="increment(document.getElementById('quantity{{loop.index}}'))"
                     >
                       <i class="fa fa-plus" aria-hidden="true"></i>
@@ -101,6 +102,7 @@ block nav_items %}
                     />
                     <button
                       class="btn btn-sm btn-primary"
+                      type="button"
                       onclick="decrement(document.getElementById('quantity{{loop.index}}'))"
                     >
                       <i class="fa fa-minus" aria-hidden="true"></i>
