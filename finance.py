@@ -4,6 +4,8 @@ import requests
 import pyrebase
 import json
 
+from sqlalchemy import null
+
 def firebaseConfigRead():
     with open("C:/Users/Dell/OneDrive/Desktop/Python/fireConfig.json", 'r') as f:
         return json.load(f)
@@ -27,15 +29,16 @@ URL = f"https://api.coingecko.com/api/v3/simple/price?ids={stocks}&vs_currencies
 db = firebase.database()
 
 def stock_trade(user,index,price,quantity,buy):
+    name = stocks_list[index].title()
     if buy:
         print(f'Buy: {index}  {quantity}')
-        data = {'Name':stocks_list[index],'Price':price,'Quantity':quantity,'Trade':'Buy'}
-        db.child('Users').child(user).child('stock').push(data)
+        data = {'Name':name,'Price':price,'Quantity':quantity,'Trade':'Buy','Owner':user}
+        db.child('Finance').child('Stocks').push(data)
 
     else:
         print(f'Sell: {index}  {quantity}')
-        data = {'Name':stocks_list[index],'Price':price,'Quantity':quantity,'Trade':'Sell'}
-        db.child('Users').child(user).child('stock').push(data)
+        data = {'Name':stocks_list[index],'Price':price,'Quantity':quantity,'Trade':'Sell','Owner':user}
+        db.child('Finance').child('Stocks').push(data)
 
 def get_stocks_api():
     data=requests.get(URL)
@@ -49,6 +52,14 @@ def get_stocks_api():
         stocks_today.append(ans)
     stocks_today = sorted(stocks_today, key=lambda d: d['Name']) 
     return stocks_today
+
+def get_my_stocks(user):
+    stocks = db.child('Finance').child('Stocks').order_by_child('Owner').equal_to(user).get()
+    data = []
+    for stock in stocks.each():
+        print(stock.val())
+        data.append(stock.val())
+    return data
 
 @app.route('/', methods =["GET", "POST"])
 def index_page():
@@ -68,11 +79,15 @@ def index_page():
     
         elif request.form['sign'] == 'sign-up':
             try:
-                data = {'EmailId':userEmail}
+                copies = db.child('Finance').child('Users').order_by_child('Username').equal_to(username).get()
+                for copy in copies.each():
+                    if copy.val()!=null:
+                        raise Exception('Username already exists')
+                data = {'Username':username,'EmailId':userEmail}
                 auth.create_user_with_email_and_password(userEmail,password)
-                db.child('Users').child(username).push(data)
+                db.child('Finance').child('Users').push(data)
                 return redirect(url_for('home_page',user=username))
-            except:
+            except Exception:
                 error = 'Something went wrong!'
 
     return render_template('index.html',error=error)
@@ -91,17 +106,18 @@ def stock_page(user):
 
     if request.method == "POST":
         for index in range(7):
-            # if (request.form['trade'] == 'buy'+ str(index)) or (request.form['trade'] == 'sell'+ str(index)):
             data = request.form.items()
             for item,val in data:
-                quantity = request.form.get(f'quantity{index}')
+                quantity = int(request.form.get(f'quantity{index+1}'))
                 price = stocks_today[index]['inr']
-                if item == 'trade' and val == f'buy{index}':
+                if item == 'trade' and val == f'buy{index+1}':
                     stock_trade(user,index,price,quantity,True)
                 elif item == 'trade' and val == f'sell{index}':
                     stock_trade(user,index,price,quantity,False)
 
-    return render_template('stock.html',stocks_today=stocks_today,username=user)
+    available_stocks = get_my_stocks(user)
+
+    return render_template('stock.html',stocks_today=stocks_today,username=user,available_stocks=available_stocks)
 
 @app.route('/contacts/<user>')
 def contacts_page(user):

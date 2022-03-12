@@ -134,40 +134,30 @@ block nav_items %}
     </div>
     <div
       class="col-sm-4"
-      style="width: 19rem; margin-top: 1%; margin-bottom: 1.5%;"
+      style="width: 19rem; margin-top: 0.25%; padding: 0.5%;"
     >
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">My Stocks</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Buy/Sell Stocks</h6>
+          <h6 class="card-subtitle mb-2 text-muted">Available</h6>
           <table class="table table-striped">
             <thead>
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">Bought</th>
-                <th scope="col">Current</th>
+                <th scope="col">Quantity</th>
               </tr>
             </thead>
             <tbody>
+              {% for item in available_stocks %}
               <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                <th scope="row">{{ loop.index }}</th>
+                <td>{{ item.Name }}</td>
+                <td>{{ item.Price }}</td>
+                <td>{{item.Quantity}}</td>
               </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
