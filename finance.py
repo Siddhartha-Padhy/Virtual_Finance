@@ -28,12 +28,31 @@ URL = f"https://api.coingecko.com/api/v3/simple/price?ids={stocks}&vs_currencies
 
 db = firebase.database()
 
+# def update_worth(user,value,increase):
+#     if increase:
+#         curr_worth = int(get_worth(user))
+#         curr_worth = curr_worth + value
+#         curr_user = db.child('Finance').child('Users').order_by_child('Username').equal_to(user).get()
+
+#         for use in curr_user.each():
+#             if use.val()['Username'] == user:
+#                 db.child('Finance').child('Users').child(use.key()).update({'Worth':curr_worth})
+
+#     else:
+#         curr_worth = int(get_worth(user))
+#         curr_worth = curr_worth - value
+
+#         curr_user = db.child('Finance').child('Users').order_by_child('Username').equal_to(user).get().update({'Worth':curr_worth})
+
 def stock_trade(user,index,price,quantity,buy):
     name = stocks_list[index].title()
     if buy:
         print(f'Buy: {index}  {quantity}')
         data = {'Name':name,'Price':price,'Quantity':quantity,'Trade':'Buy','Owner':user}
         db.child('Finance').child('Stocks').push(data)
+
+        # value = price * quantity
+        # update_worth(user,value,False)
 
     else:
         print(f'Sell: {index}  {quantity}')
@@ -57,6 +76,13 @@ def get_stocks_api():
         stocks_today.append(ans)
     stocks_today = sorted(stocks_today, key=lambda d: d['Name']) 
     return stocks_today
+
+def get_worth(user):
+    curr_user = db.child('Finance').child('Users').order_by_child('Username').equal_to(user).get()
+    for var in curr_user.val():
+        worth=curr_user.val()[var]['Worth']
+    return worth
+
 
 def get_my_stocks(user):
     stocks = db.child('Finance').child('Stocks').order_by_child('Owner').equal_to(user).get()
@@ -87,7 +113,8 @@ def index_page():
                 for copy in copies.each():
                     if copy.val()!=null:
                         raise Exception('Username already exists')
-                data = {'Username':username,'EmailId':userEmail}
+                worth = 50000
+                data = {'Username':username,'EmailId':userEmail,'Worth':worth}
                 auth.create_user_with_email_and_password(userEmail,password)
                 db.child('Finance').child('Users').push(data)
                 return redirect(url_for('home_page',user=username))
@@ -99,15 +126,18 @@ def index_page():
 @app.route('/home/<user>')
 def home_page(user):
     available_stocks = get_my_stocks(user)
-    return render_template('home.html',username=user,available_stocks=available_stocks)
+    worth = get_worth(user)
+    return render_template('home.html', username=user, available_stocks=available_stocks, worth=worth)
 
 @app.route('/bank/<user>')
 def bank_page(user):
-    return render_template('bank.html',username=user)
+    worth = get_worth(user)
+    return render_template('bank.html',username=user, worth=worth)
 
 @app.route('/stock/<user>', methods =["GET", "POST"])
 def stock_page(user):
     stocks_today = get_stocks_api()
+    worth = get_worth(user)
 
     if request.method == "POST":
         for index in range(7):
@@ -122,11 +152,12 @@ def stock_page(user):
 
     available_stocks = get_my_stocks(user)
 
-    return render_template('stock.html',stocks_today=stocks_today,username=user,available_stocks=available_stocks)
+    return render_template('stock.html',stocks_today=stocks_today,username=user,available_stocks=available_stocks, worth=worth)
 
 @app.route('/contacts/<user>')
 def contacts_page(user):
-    return render_template('contacts.html',username=user)
+    worth = get_worth(user)
+    return render_template('contacts.html',username=user, worth=worth)
 
 if __name__ == '__main__':
     app.run(debug=True)
