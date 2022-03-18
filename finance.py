@@ -28,31 +28,43 @@ URL = f"https://api.coingecko.com/api/v3/simple/price?ids={stocks}&vs_currencies
 
 db = firebase.database()
 
-# def update_worth(user,value,increase):
-#     if increase:
-#         curr_worth = int(get_worth(user))
-#         curr_worth = curr_worth + value
-#         curr_user = db.child('Finance').child('Users').order_by_child('Username').equal_to(user).get()
+def update_worth(user,value,increase):
+    curr_user = db.child('Finance').child('Users').order_by_child('Username').equal_to(user).get()
+    if increase:
+        curr_worth = int(get_worth(user))
+        curr_worth = curr_worth + value
 
-#         for use in curr_user.each():
-#             if use.val()['Username'] == user:
-#                 db.child('Finance').child('Users').child(use.key()).update({'Worth':curr_worth})
+        for use in curr_user.each():
+            if use.val()['Username'] == user:
+                db.child('Finance').child('Users').child(use.key()).update({'Worth':curr_worth})
 
-#     else:
-#         curr_worth = int(get_worth(user))
-#         curr_worth = curr_worth - value
+    else:
+        curr_worth = int(get_worth(user))
+        curr_worth = curr_worth - value
 
-#         curr_user = db.child('Finance').child('Users').order_by_child('Username').equal_to(user).get().update({'Worth':curr_worth})
+        for use in curr_user.each():
+            if use.val()['Username'] == user:
+                db.child('Finance').child('Users').child(use.key()).update({'Worth':curr_worth})
 
 def stock_trade(user,index,price,quantity,buy):
     name = stocks_list[index].title()
     if buy:
         print(f'Buy: {index}  {quantity}')
-        data = {'Name':name,'Price':price,'Quantity':quantity,'Trade':'Buy','Owner':user}
-        db.child('Finance').child('Stocks').push(data)
+        avail_stocks = db.child('Finance').child('Stocks').order_by_child('Owner').equal_to(user).get()
 
-        # value = price * quantity
-        # update_worth(user,value,False)
+        available = False
+        for stock in avail_stocks.each():
+            if stock.val()['Name'] == name:
+                available = True
+                curr = int(db.child('Finance').child('Stocks').child(stock.key()).child('Quantity').get().val()) + quantity
+                db.child('Finance').child('Stocks').child(stock.key()).update({'Quantity':curr})
+
+        if not available:
+            data = {'Name':name,'Price':price,'Quantity':quantity,'Trade':'Buy','Owner':user}
+            db.child('Finance').child('Stocks').push(data)
+
+        value = price * quantity
+        update_worth(user,value,False)
 
     else:
         print(f'Sell: {index}  {quantity}')
@@ -149,6 +161,7 @@ def stock_page(user):
                     stock_trade(user,index,price,quantity,True)
                 elif item == 'trade' and val == f'sell{index+1}':
                     stock_trade(user,index,price,quantity,False)
+        worth = get_worth(user)
 
     available_stocks = get_my_stocks(user)
 
