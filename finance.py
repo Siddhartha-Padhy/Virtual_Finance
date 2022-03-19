@@ -1,4 +1,3 @@
-from typing import OrderedDict
 from flask import Flask, flash, render_template, redirect, url_for, request
 from constants import *
 from database import *
@@ -15,8 +14,7 @@ def index_page():
         password = str(request.form.get("password"))
         if request.form['sign'] == 'sign-in':
             try:
-                validate_sign_in(userEmail,password)
-                flash('Successfully Signed in')
+                username = validate_sign_in(userEmail,password)
                 return redirect(url_for('home_page',user=username))
             except Exception as e:
                 print('Error: ',e)
@@ -37,15 +35,12 @@ def home_page(user):
     worth = get_worth(user)
     return render_template('home.html', username=user, available_stocks=available_stocks, worth=worth)
 
-@app.route('/bank/<user>')
-def bank_page(user):
-    worth = get_worth(user)
-    return render_template('bank.html',username=user, worth=worth)
-
 @app.route('/stock/<user>', methods =["GET", "POST"])
 def stock_page(user):
     stocks_today = get_stocks_api(URL)
     worth = get_worth(user)
+    error = 'False'
+    flash_message = ""
 
     if request.method == "POST":
         for index in range(7):
@@ -53,20 +48,24 @@ def stock_page(user):
             for item,val in data:
                 quantity = int(request.form.get(f'quantity{index+1}'))
                 price = stocks_today[index]['inr']
-                if item == 'trade' and val == f'buy{index+1}':
-                    stock_trade(user,index,price,quantity,True)
-                elif item == 'trade' and val == f'sell{index+1}':
-                    stock_trade(user,index,price,quantity,False)
+                try:
+                    if item == 'trade' and val == f'buy{index+1}':
+                        stock_trade(user,index,price,quantity,True)
+                    elif item == 'trade' and val == f'sell{index+1}':
+                        stock_trade(user,index,price,quantity,False)
+                except Exception as e:
+                    error = 'True'
+                    flash_message = str(e)
         worth = get_worth(user)
 
     available_stocks = get_my_stocks(user)
 
-    return render_template('stock.html',stocks_today=stocks_today,username=user,available_stocks=available_stocks, worth=worth)
+    return render_template('stock.html',stocks_today=stocks_today,username=user,available_stocks=available_stocks, worth=worth, error = error, flash_message=flash_message)
 
-@app.route('/contacts/<user>')
-def contacts_page(user):
+@app.route('/about/<user>')
+def about_page(user):
     worth = get_worth(user)
-    return render_template('contacts.html',username=user, worth=worth)
+    return render_template('about.html',username=user, worth=worth)
 
 if __name__ == '__main__':
     app.run(debug=True)

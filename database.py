@@ -18,6 +18,10 @@ auth = firebase.auth()
 
 def validate_sign_in(userEmail,password):
     auth.sign_in_with_email_and_password(userEmail,password)
+    data = db.child('Finance').child('Users').order_by_child('EmailId').equal_to(userEmail).get()
+    for var in data.val():
+        username = data.val()[var]['Username']
+    return username
 
 def validate_sign_up(userEmail,username,password):
     copies = db.child('Finance').child('Users').order_by_child('Username').equal_to(username).get()
@@ -76,7 +80,9 @@ def update_worth(user,value,increase):
 def stock_trade(user,index,price,quantity,buy):
     name = stocks_list[index].title()
     if buy:
-        print(f'Buy: {index}  {quantity}')
+        value = price * quantity
+        if get_worth(user) < value:
+            raise Exception('Not Enough Worth')
         avail_stocks = db.child('Finance').child('Stocks').order_by_child('Owner').equal_to(user).get()
 
         available = False
@@ -90,16 +96,19 @@ def stock_trade(user,index,price,quantity,buy):
             data = {'Name':name,'Price':price,'Quantity':quantity,'Trade':'Buy','Owner':user}
             db.child('Finance').child('Stocks').push(data)
 
-        value = price * quantity
         update_worth(user,value,False)
 
     else:
-        print(f'Sell: {index}  {quantity}')
         avail_stocks = db.child('Finance').child('Stocks').order_by_child('Owner').equal_to(user).get()
         for stock in avail_stocks.each():
             if stock.val()['Name'] == name:
                 rem = int(db.child('Finance').child('Stocks').child(stock.key()).child('Quantity').get().val()) - quantity
-                db.child('Finance').child('Stocks').child(stock.key()).update({'Quantity':rem})
+                if rem > 0:
+                    db.child('Finance').child('Stocks').child(stock.key()).update({'Quantity':rem})
+                elif rem == 0:
+                    db.child('Finance').child('Stocks').child(stock.key()).remove()
+                else:
+                    raise Exception('Not Enough Stocks')
 
         value = price * quantity
         update_worth(user,value,True)

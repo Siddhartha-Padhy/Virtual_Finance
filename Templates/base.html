@@ -35,7 +35,7 @@
       {% block title %} {% endblock %}
     </title>
   </head>
-  <body>
+  <body onload="flashMessage()">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">{{ username }}</a>
@@ -78,13 +78,18 @@
     <script>
       function increment(index) {
         val = parseInt(index.value)
-        val = val + 1
+        if (val < 100) val = val + 1
         index.value = val
       }
       function decrement(index) {
         val = parseInt(index.value)
-        val = val - 1
+        if (val > 0) val = val - 1
         index.value = val
+      }
+      function flashMessage() {
+        if ('{{ error }}' === 'True') {
+          alert('{{ flash_message }}')
+        }
       }
     </script>
 

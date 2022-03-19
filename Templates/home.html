@@ -7,14 +7,11 @@
 >
   Home
 </a>
-<a class="nav-link" href="{{ url_for('bank_page',user=username) }}">
-  Bank
-</a>
 <a class="nav-link" href="{{ url_for('stock_page',user=username) }}">
   Stocks
 </a>
-<a class="nav-link" href="{{ url_for('contacts_page',user=username) }}">
-  Contacts
+<a class="nav-link" href="{{ url_for('about_page',user=username) }}">
+  About
 </a>
 {% endblock %}
 {% block content %}

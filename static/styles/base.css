@@ -21,10 +21,15 @@ body {
   text-align: center;
 }
 
+.flex-style {
+  display: flex;
+  justify-content: space-between;
+}
+
 .signin-card {
   margin-top: 1%;
   color: black;
-  left: 35%;
+  left: 25vw;
 }
 
 .logo img {

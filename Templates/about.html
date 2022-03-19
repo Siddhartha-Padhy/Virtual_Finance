@@ -1,0 +1,68 @@
+{% extends 'base.html' %} {% block title %} Virtual Finance {% endblock %} {%
+block nav_items %}
+<a class="nav-link" href="{{ url_for('home_page',user=username) }}">
+  Home
+</a>
+<a class="nav-link" href="{{ url_for('stock_page',user=username) }}">
+  Stocks
+</a>
+<a
+  class="nav-link active"
+  aria-current="page"
+  href="{{ url_for('about_page',user=username) }}"
+>
+  About
+</a>
+{% endblock %} {% block content %}
+<div
+  class="container shadow p-3 mb-5 bg-white rounded"
+  style="background-color: white;"
+>
+  <h2>About Us</h2>
+  <hr class="my-4" />
+  <blockquote class="blockquote text-center">
+    <p class="mb-0">
+      "I will tell you how to become rich. Close the doors. Be fearful when
+      others are greedy. Be greedy when others are fearful."
+    </p>
+    <footer class="blockquote-footer" style="padding-top: 1.5%;">
+      <cite title="Source Title">Warren Buffett</cite>
+    </footer>
+  </blockquote>
+  <p>
+    Inspired from the quote by Warren Buffet and the need for stock market
+    knowledge available to everyone we bring to you a complete market experience
+    without involving any real money. Practise your skills on actual market with
+    real time stocks data without any risk. Brought to you with love and effort
+    from
+    <b>VirtualFinance.com</b>
+    .
+  </p>
+
+  <ul class="list-group list-group-flush">
+    Follow us at:
+    <li class="list-group-item">
+      <i class="fa fa-facebook-official" aria-hidden="true"></i>
+      <a href="#" style="color: blue; text-decoration: none;">Facebook</a>
+    </li>
+    <li class="list-group-item">
+      <i class="fa fa-instagram" aria-hidden="true"></i>
+      <a href="#" style="color: blue; text-decoration: none;">Instagram</a>
+    </li>
+    <li class="list-group-item">
+      <i class="fa fa-twitter" aria-hidden="true"></i>
+      <a href="#" style="color: blue; text-decoration: none;">Twitter</a>
+    </li>
+    <li class="list-group-item">
+      <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+      <a href="#" style="color: blue; text-decoration: none;">LinkedIn</a>
+    </li>
+  </ul>
+</div>
+<footer class="page-footer font-small blue">
+  <div class="footer-copyright text-center py-3">
+    © 2022 Copyright:
+    <a href="#">VirtualFinance.com</a>
+  </div>
+</footer>
+{% endblock %}

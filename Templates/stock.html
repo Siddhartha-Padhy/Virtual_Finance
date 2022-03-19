@@ -3,9 +3,6 @@ block nav_items %}
 <a class="nav-link" href="{{ url_for('home_page',user=username) }}">
   Home
 </a>
-<a class="nav-link" href="{{ url_for('bank_page',user=username) }}">
-  Bank
-</a>
 <a
   class="nav-link active"
   aria-current="page"
@@ -13,8 +10,8 @@ block nav_items %}
 >
   Stocks
 </a>
-<a class="nav-link" href="{{ url_for('contacts_page',user=username) }}">
-  Contacts
+<a class="nav-link" href="{{ url_for('about_page',user=username) }}">
+  About
 </a>
 {% endblock %} {% block content %}
 <div class="container">
@@ -30,7 +27,6 @@ block nav_items %}
             <th scope="col">Price</th>
             <th scope="col">Market Cap</th>
             <th scope="col">Volume</th>
-            <th scope="col">Bought</th>
           </tr>
         </thead>
         <tbody>
@@ -49,9 +45,6 @@ block nav_items %}
             <td>
               <i class="fa fa-inr" aria-hidden="true"></i>
               {{ stock.inr_24h_vol }}
-            </td>
-            <td>
-              55
             </td>
           </tr>
           {% endfor %}

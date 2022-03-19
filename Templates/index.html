@@ -50,73 +50,109 @@
           Learn to manage your finance by virtually using it without any risk.
         </p>
         <a href="#" id="hover-link">Know More!</a>
-        <div class="card signin-card" style="width: 18rem;">
+        <div class="card signin-card" style="width: 30rem;">
           <div class="card-body">
-            <h5 class="card-title">Sign-in / Sign-up</h5>
+            <h5 class="card-title">Sign-up / Sign-in</h5>
             {% if error %}
             <p>
               <strong>Error</strong>
               : {{error}}
             </p>
             {% endif %}
-            <form action="{{ url_for('index_page') }}" method="post">
-              <div class="form-group">
-                <label for="username">
-                  <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                  Email Id
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="userEmail"
-                  name="userEmail"
-                  placeholder="Email"
-                />
-              </div>
-              <div class="form-group">
-                <label for="username">
-                  <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                  Username
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="username"
-                  name="username"
-                  placeholder="Username"
-                />
-              </div>
-              <div class="form-group">
-                <label for="Password">
-                  <i class="fa fa-eye-slash" aria-hidden="true"></i>
-                  Password
-                </label>
-                <input
-                  type="password"
-                  class="form-control"
-                  id="accPwd"
-                  name="password"
-                  placeholder="Password"
-                />
-              </div>
+            <div class="flex-style">
+              <form action="{{ url_for('index_page') }}" method="post">
+                <div class="form-group">
+                  <label for="username">
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                    Email Id
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="userEmail"
+                    name="userEmail"
+                    placeholder="Email"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="username">
+                    <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                    Username
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="username"
+                    name="username"
+                    placeholder="Username"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="Password">
+                    <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="accPwd"
+                    name="password"
+                    placeholder="Password"
+                  />
+                </div>
 
-              <button
-                type="submit"
-                class="btn btn-primary"
-                name="sign"
-                value="sign-up"
-              >
-                Sign-up
-              </button>
-              <button
-                type="submit"
-                class="btn btn-success"
-                name="sign"
-                value="sign-in"
-              >
-                Sign-in
-              </button>
-            </form>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  name="sign"
+                  value="sign-up"
+                >
+                  Sign-up
+                </button>
+              </form>
+              <div
+                class="vr"
+                style="border-left: 3px solid green; height: 18rem;"
+              ></div>
+              <form action="{{ url_for('index_page') }}" method="post">
+                <div class="form-group">
+                  <label for="username">
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                    Email Id
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="userEmail"
+                    name="userEmail"
+                    placeholder="Email"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="Password">
+                    <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="accPwd"
+                    name="password"
+                    placeholder="Password"
+                  />
+                </div>
+                <div class="form-check" style="height: 19vh;"></div>
+
+                <button
+                  type="submit"
+                  class="btn btn-success"
+                  name="sign"
+                  value="sign-in"
+                >
+                  Sign-in
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
